@@ -2,7 +2,7 @@
 
 BDS Toolbox pressure cooker project for the data department of the school.
 
-> **Privacy note:** the name of the school has been removed from this repository for privacy reasons. The client is referred to as **"the school"** throughout. Please do the same in code, comments, commit messages, file names, plots and slides, because anything committed stays in the Git history.
+> **Privacy note:** the name of the school has been removed from this repository for privacy reasons. The client is referred to as **"the school"** throughout. Please do the same in code, comments, commit messages, file names, plots and slides.
 
 ## Client question
 
@@ -15,6 +15,7 @@ Which aspects of early years education should the school prioritise to maximise 
 
 | Deliverable | Where | Due |
 | --- | --- | --- |
+| Proposal (PowerPoint) | outline in `docs/proposal.md`, slides in `presentation/` | 15 Oct 2026 |
 | Report (PowerPoint) | `presentation/` |  |
 | Presentation | `presentation/` |  |
 | R code | `scripts/` |  |
@@ -32,6 +33,8 @@ Which aspects of early years education should the school prioritise to maximise 
 
 | When | Checkpoint |
 | --- | --- |
+| 13 Oct 2026 | Kick-off and intake meeting |
+| 15 Oct 2026 | Proposal submitted (see `docs/proposal.md`) |
 |  | Data is clear (cleaned, understood, codebook checked) |
 |  | Modelling approach is clear |
 |  | Core analysis finished, final check with supervisor |
@@ -41,13 +44,13 @@ Which aspects of early years education should the school prioritise to maximise 
 
 ```
 data/
-  raw/          data from the school (stays local, never committed)
-  processed/    cleaned data written by scripts (stays local)
+  raw/          data from the school (decide is this needs to stays local, or we okay to commit??)
+  processed/    cleaned data written by scripts (decide is this needs to stays local, or we okay to commit??)
 scripts/        R scripts, numbered in run order
 output/
   figures/      plots for the slides
   tables/       aggregated result tables (no pupil-level rows)
-docs/           intake notes, meeting notes, client brief
+docs/           proposal outline, intake notes, meeting notes
 presentation/   report and presentation slides
 ```
 
@@ -60,9 +63,6 @@ presentation/   report and presentation slides
 
 ## Data privacy
 
-The data is about young pupils, so it never goes on GitHub, even in a private repo. `.gitignore` blocks `data/raw/`, `data/processed/` and common data files (`.csv`, `.xlsx`, `.sav`). Only aggregated tables in `output/tables/` may be committed. Before every commit, check `git status` for anything that looks like pupil data.
-
-- Data location:
 - Codebook / data definition:
 
 ## How we work
