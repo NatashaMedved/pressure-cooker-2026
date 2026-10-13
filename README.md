@@ -16,9 +16,9 @@ Which aspects of early years education should the school prioritise to maximise 
 | Deliverable | Where | Due |
 | --- | --- | --- |
 | Proposal (PowerPoint) | outline in `docs/proposal.md`, slides in `presentation/` | 15 Oct 2026 |
-| Report (PowerPoint) | `presentation/` |  |
-| Presentation | `presentation/` |  |
-| R code | `scripts/` |  |
+| Presentation | `presentation/` | 20 Oct 2026 @ 12pm |
+| Report (PowerPoint) | template in `presentation/` | 20 Oct 2026 @ 23:59 |
+| R code | `scripts/` | 20 Oct 2026 @ 23:59 |
 
 ## Team (group 1)
 
