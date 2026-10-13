@@ -13,8 +13,6 @@ Which aspects of early years education should the school prioritise to maximise 
 
 ## Deliverables
 
-## Deliverables
-
 | Deliverable | Format | Where | Due |
 | --- | --- | --- | --- | --- |
 | Proposal | PowerPoint | `proposal/` (outline in `proposal-outline.md`) | 15 Oct 2026 @ 23:59 |
