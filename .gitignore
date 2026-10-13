@@ -1,0 +1,35 @@
+# R / RStudio
+.Rproj.user/
+.Rhistory
+.RData
+.Ruserdata
+*.Rproj.user
+.Renviron
+
+# renv
+renv/library/
+renv/staging/
+
+# Quarto / R Markdown output
+*_cache/
+*_files/
+/.quarto/
+
+# Client data: never commit
+data/raw/*
+data/processed/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Office lock files
+~$*
+# Pupil-level data: never commit
+*.sav
+*.xlsx
+*.xls
+*.csv
+!output/tables/*.csv
