@@ -1,10 +1,12 @@
-# Pressure Cooker: Het Epos early years
+# Pressure Cooker: early years
 
-BDS Toolbox pressure cooker project for the Data & Knowledge department of Het Epos primary school (Rotterdam-Zuid).
+BDS Toolbox pressure cooker project for the data department of the school.
+
+> **Privacy note:** the name of the school has been removed from this repository for privacy reasons. The client is referred to as **"the school"** throughout. Please do the same in code, comments, commit messages, file names, plots and slides, because anything committed stays in the Git history.
 
 ## Client question
 
-Which aspects of early years education should Het Epos prioritise to maximise pupils' development in kindergarten (groups 1–2) and their success in the rest of primary school?
+Which aspects of early years education should the school prioritise to maximise pupils' development in kindergarten (groups 1–2) and their success in the rest of primary school?
 
 - **Sub-question 1, extended time in kindergarten:** what are the effects of a longer kindergarten period on cognitive, social-emotional and executive development, and on functioning in groups 3 and 4?
 - **Sub-question 2, teaching focus aligned with groups 3 and 4:** what are the effects of teaching towards group 3/4 learning goals on achievement and later school pathways?
@@ -33,13 +35,13 @@ Which aspects of early years education should Het Epos prioritise to maximise pu
 |  | Data is clear (cleaned, understood, codebook checked) |
 |  | Modelling approach is clear |
 |  | Core analysis finished, final check with supervisor |
-|  | Presentation to Het Epos |
+|  | Presentation to the school |
 
 ## Repository structure
 
 ```
 data/
-  raw/          data from Het Epos (stays local, never committed)
+  raw/          data from the school (stays local, never committed)
   processed/    cleaned data written by scripts (stays local)
 scripts/        R scripts, numbered in run order
 output/
