@@ -13,12 +13,14 @@ Which aspects of early years education should the school prioritise to maximise 
 
 ## Deliverables
 
-| Deliverable | Where | Due |
-| --- | --- | --- |
-| Proposal (PowerPoint) | outline in `docs/proposal.md`, slides in `presentation/` | 15 Oct 2026 @ 23:59 |
-| Presentation | `presentation/` | 20 Oct 2026 @ 12pm |
-| Report (PowerPoint) | template in `presentation/` | 20 Oct 2026 @ 23:59 |
-| R code | `scripts/` | 20 Oct 2026 @ 23:59 |
+## Deliverables
+
+| Deliverable | Format | Where | Due |
+| --- | --- | --- | --- | --- |
+| Proposal | PowerPoint | `proposal/` (outline in `proposal-outline.md`) | 15 Oct 2026 @ 23:59 |
+| Presentation | Short PowerPoint for the talk: the report with >50% removed | `presentation/` | 20 Oct 2026 @ 12:00 |
+| Report | PowerPoint (from `templates/report-template.potx`), exported to PDF; readable without a presenter | `report/` | 20 Oct 2026 @ 23:59 |
+| R code | Readable, commented `.R` or `.Rmd` | `scripts/` | 20 Oct 2026 @ 23:59 |
 
 ## Team (group 1)
 
