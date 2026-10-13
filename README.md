@@ -1,4 +1,4 @@
-# Pressure Cooker: early years
+# Pressure Cooker: Building Analytics for 'the school'
 
 BDS Toolbox pressure cooker project for the data department of the school.
 
@@ -35,10 +35,11 @@ Which aspects of early years education should the school prioritise to maximise 
 | --- | --- |
 | 13 Oct 2026 | Kick-off and intake meeting |
 | 14 Oct 2026 | Data is clear (cleaned, understood, codebook checked) 
-| 15 Oct 2026 | Proposal submitted (see `docs/proposal.md`) |
-|  | Modelling approach is clear |
-|  | Core analysis finished, final check with supervisor |
-|  | Presentation to the school |
+| *15 Oct 2026* | Proposal submitted (see `docs/proposal.md`) |
+| 16 Oct 2026 | Modelling approach is clear |
+|  | Core analysis finished |
+| *20 Oct 2026* | Submit slides for pitch |
+| *20 Oct 2026* | Submit all deliverables on Canvas |
 
 ## Repository structure
 
