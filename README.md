@@ -34,8 +34,8 @@ Which aspects of early years education should the school prioritise to maximise 
 | When | Checkpoint |
 | --- | --- |
 | 13 Oct 2026 | Kick-off and intake meeting |
+| 14 Oct 2026 | Data is clear (cleaned, understood, codebook checked) 
 | 15 Oct 2026 | Proposal submitted (see `docs/proposal.md`) |
-|  | Data is clear (cleaned, understood, codebook checked) |
 |  | Modelling approach is clear |
 |  | Core analysis finished, final check with supervisor |
 |  | Presentation to the school |
