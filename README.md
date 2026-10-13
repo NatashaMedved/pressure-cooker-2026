@@ -34,7 +34,7 @@ Which aspects of early years education should the school prioritise to maximise 
 | 13 Oct 2026 | Kick-off and intake meeting | |
 | 14 Oct 2026 | Data is clear (cleaned, understood, codebook checked) | Alice |
 | 15 Oct 2026 | Modelling approach is clear | |
-| **15 Oct 2026** | Proposal submitted (see `docs/proposal.md`) | |
+| **15 Oct 2026** | Proposal submitted (see `/proposal.md`) | |
 |  | Core analysis finished | |
 | **20 Oct 2026** | Submit slides for pitch | |
 | **20 Oct 2026** | Submit all deliverables on Canvas | |
