@@ -44,15 +44,14 @@ Which aspects of early years education should the school prioritise to maximise 
 ```
 proposal/       proposal outline and slides
 report/         report (PowerPoint) and exported PDF
-presentation/   short deck for the talk
-templates/      professor's report template (don't edit, copy it)
+presentation/   short deck for the pitch
 scripts/        R scripts, numbered in run order
 output/
   figures/      plots for the report and presentation
   tables/       aggregated result tables (no pupil-level rows)
 data/
-  raw/          data from the school (local only, never committed)
-  processed/    cleaned data written by scripts (local only)
+  raw/          data from the school
+  processed/    cleaned data written by scripts
 docs/           intake notes, meeting notes
 ```
 
