@@ -22,12 +22,7 @@ Which aspects of early years education should the school prioritise to maximise 
 
 ## Team
 
-| Name | GitHub | Focus |
-| --- | --- | --- |
-| Natasha |  |  |
-|  |  |  |
-|  |  |  |
-|  |  |  |
+* Natasha Medved 
 
 ## Planning (work backwards from the presentation)
 
@@ -35,11 +30,11 @@ Which aspects of early years education should the school prioritise to maximise 
 | --- | --- |
 | 13 Oct 2026 | Kick-off and intake meeting |
 | 14 Oct 2026 | Data is clear (cleaned, understood, codebook checked) 
-| *15 Oct 2026* | Proposal submitted (see `docs/proposal.md`) |
+| **15 Oct 2026** | Proposal submitted (see `docs/proposal.md`) |
 | 16 Oct 2026 | Modelling approach is clear |
 |  | Core analysis finished |
-| *20 Oct 2026* | Submit slides for pitch |
-| *20 Oct 2026* | Submit all deliverables on Canvas |
+| **20 Oct 2026** | Submit slides for pitch |
+| **20 Oct 2026** | Submit all deliverables on Canvas |
 
 ## Repository structure
 
