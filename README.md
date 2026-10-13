@@ -44,15 +44,18 @@ Which aspects of early years education should the school prioritise to maximise 
 ## Repository structure
 
 ```
-data/
-  raw/          data from the school (decide is this needs to stays local, or we okay to commit??)
-  processed/    cleaned data written by scripts (decide is this needs to stays local, or we okay to commit??)
+proposal/       proposal outline and slides
+report/         report (PowerPoint) and exported PDF
+presentation/   short deck for the talk
+templates/      professor's report template (don't edit, copy it)
 scripts/        R scripts, numbered in run order
 output/
-  figures/      plots for the slides
+  figures/      plots for the report and presentation
   tables/       aggregated result tables (no pupil-level rows)
-docs/           proposal outline, intake notes, meeting notes
-presentation/   report and presentation slides
+data/
+  raw/          data from the school (local only, never committed)
+  processed/    cleaned data written by scripts (local only)
+docs/           intake notes, meeting notes
 ```
 
 ## Getting started
