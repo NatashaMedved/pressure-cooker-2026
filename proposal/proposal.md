@@ -22,28 +22,62 @@ Each slide below has a one-line goal and prompts to fill in. Keep one message pe
 
 ### 2. Situation
 
-*Goal: state what is true and accepted by everyone. No opinions, no problems yet.*
+*Background Information*
 
-- What does the school do, and for whom?
-- How do the early years (groups 1–2) currently work?
-- What data does the school already collect?
+- Who is the client, what do they do?
+    - Primary school in Rotterdam;
+    - Teach children from ages 4 to 12;
+    - Groups 1 and 2 are early kindergarten, groups 3 and 4 are the first formal years.
+- Their main conviction:
+    - Strong structure and education can outweigh individual differences in how children develop.
+- How it works now:
+    - Group 1 starts at age 4.
+    - No fixed national cut-off for end of kindergarten
+        - Child's readiness is judged individually
+- Data available from the Data & Knowledge department:
+    - Learning progress:
+        - curriculum-based observations and tests;
+        - Standardized national results.
+    - Additional support:
+        - Extra classes
+        - Speech and language therapy
+        - Extra-curricular activities
+    - Teaching quality:
+        - Pupil surveys (personal, sentiment based)
+        - Teacher surveys (per class, not student)
+        - CLASS observations
+
+
 
 ### 3. Complication
 
-*Goal: explain why this situation needs attention now.*
+*Why now?*
 
-- What tension or problem is the school facing?
-- Why does the time spent in kindergarten matter (e.g. autumn-born children, different transition policies)?
-- What happens if nothing changes?
+- The school believes that there are improvement to be made in two potential areas:
+    - They worry about the situation in regards to wintern-born children:
+        - These pupils have around 2/3 months less time in the kindergarten;
+        - The "problematic behaviour" account could be due to a difference in age.
+    - They could spend resources making sure that Years 1 and 2 have a preparatory curriculum for Grade 3
+        - This could ease the transition between the two grades improving student's experiences in the long run.
+- There is no single answer.
+- Without a change, these decisions will continue to be made based on experience and convention rather than the available data
+
 
 ### 4. Request
 
 *Goal: show that we understand the question exactly as the school asked it.*
 
-- Main question: which aspects of early years education should the school prioritise?
-- Sub-question 1: effect of a longer time in kindergarten
-- Sub-question 2: effect of a teaching focus aligned with groups 3 and 4
-- Our one-sentence paraphrase of what they really want to decide:
+
+- Main question:
+    - Which aspects of early-years education should the school prioritise to maximise pupils' development in kindergarten and theur success through the rest of primary school?
+- There were two main sub-questions that they would like answers on.
+- Sub-question 1:
+    - What effect does a longer period in kindergarten have on pupils' cognitive, social-emotional, and executive development, and on their functioning in groups 3 and 4?
+- Sub-question 2:
+    - What effect does a teaching focus on learning objectives aligned with groups 3 and 4 have on pupils' academic achievement and their later educational results.
+- What is the end goal:
+    - Decide on what to improve based on the results and find practical suggestions for the curriculum.
+
 
 ---
 
