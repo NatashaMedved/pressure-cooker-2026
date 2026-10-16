@@ -8,7 +8,7 @@
 #   Quick Look:
 #     - table1:          time in kindergarten and age at the start of group 3 per birth quarter, with the number of pupils who stayed longer or moved up early compared with peers born in the same month
 #     - late_born_table: the same figures for pupils born October–December only, split by standard track, stayed longer and moved up early
-#     - plot1:           histogram of months in kindergarten, with the average and a band of ±6 months
+#     - plot1:           histogram of months in kindergarten, with the average 
 #     - plot2:           months in kindergarten per birth month for each pupil, highlighting late-year born pupils (Oct–Dec)
 #
 #
@@ -142,7 +142,7 @@ table1_data <- table1_data |>
 plot1 <- ggplot(table1_data, aes(x = months_kindergarten)) +
   geom_histogram(binwidth = 2, fill = "#DF892E", colour = "white") +
   geom_vline(xintercept = avg_months, linetype = "dashed") +
-  labs(title    = "Most pupils spend 20 to 32 months in kindergarten",
+  labs(title    = "Time spent in kindergarten",
        subtitle = "Dashed line = average.",
        x = "Months in kindergarten",
        y = "Number of pupils") +
