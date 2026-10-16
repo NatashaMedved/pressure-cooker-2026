@@ -11,6 +11,7 @@
 #     - plot1:           histogram of months in kindergarten, with the average and a band of ±6 months
 #     - plot2:           months in kindergarten per birth month for each pupil, highlighting late-year born pupils (Oct–Dec)
 #
+#
 # Summary table 2: Transition goals
 #   - All 34 goals (19 basic, 15 expected)
 #   - Average % of the 34 goals the pupils have achieved at the start of group 3
@@ -19,11 +20,14 @@
 #
 library(tidyverse)
 library(here)
+library(readxl)
 # ---- 0. Setup ----------------------------------------------------------------
 
-analysis <- read_csv(here("data/processed/analysis.csv"))
+analysis <- read_excel(here("data/processed/final_dataset.xlsx"), sheet = "final_dataset") |>
+  mutate(across(c(date_of_birth, start_date, group3_start), as_date))
 
 #view(analysis)
+#names(analysis)
 
 # ---- 1a. Summary table 1: Time in kindergarten: overall average --------------
 
@@ -168,11 +172,6 @@ plot2 <- ggplot(table1_data,
   theme(legend.position = "top")
 
 plot2
-
-
-
-
-
 
 
 
