@@ -12,12 +12,6 @@
 #     - plot2:           months in kindergarten per birth month for each pupil, highlighting late-year born pupils (Oct–Dec)
 #
 #
-# Summary table 2: Transition goals
-#   - All 34 goals (19 basic, 15 expected)
-#   - Average % of the 34 goals the pupils have achieved at the start of group 3
-#   - Lowest and highest % across pupils
-#
-#
 library(tidyverse)
 library(here)
 library(readxl)
@@ -88,7 +82,7 @@ table1_by_period <- table1_data |>
     max_months     = max(months_kindergarten),
     n_stayed_longer  = sum(deviation == "Stayed longer"),
     n_moved_up_early = sum(deviation == "Moved up early"),
-    avg_age_gr3    = mean(age_start_group3)
+    avg_age_months   = mean(age_start_group3) * 12
   )
 
 # ---- 1e. Summary table 1: Time in kindergarten: add everything together ------
@@ -99,17 +93,19 @@ table1_total <- table1_data |>
     avg_months     = mean(months_kindergarten),
     min_months     = min(months_kindergarten),
     max_months     = max(months_kindergarten),
-    n_longer       = sum(deviation == "Longer than average"),
-    n_shorter      = sum(deviation == "Shorter than average"),
-    avg_age_gr3    = mean(age_start_group3)
+    n_stayed_longer  = sum(deviation == "Stayed longer"),
+    n_moved_up_early = sum(deviation == "Moved up early"),
+    avg_age_months = mean(age_start_group3) * 12
   ) |>
   mutate(birth_period = "All pupils")
 
 table1 <- bind_rows(table1_by_period, table1_total)
 
 table1 <- table1 |>
-  mutate(across(c(avg_months, min_months, max_months, avg_age_gr3),
-                \(x) round(x, 1)))
+  mutate(across(c(avg_months, min_months, max_months), \(x) round(x, 1)),
+         avg_age_gr3 = str_c(floor(round(avg_age_months) / 12), "y ",
+                             round(avg_age_months) %% 12, "m")) |>
+  select(-avg_age_months)
 
 table1
 
@@ -121,10 +117,13 @@ late_born_table <- table1_data |>
   filter(birth_quarter == 4) |>
   group_by(deviation) |>
   summarise(
-    pupils      = n(),
-    avg_months  = round(mean(months_kindergarten), 1),
-    avg_age_gr3 = round(mean(age_start_group3), 1)
-  )
+    pupils         = n(),
+    avg_months     = round(mean(months_kindergarten), 1),
+    avg_age_months = mean(age_start_group3) * 12
+  ) |>
+  mutate(avg_age_gr3 = str_c(floor(round(avg_age_months) / 12), "y ",
+                             round(avg_age_months) %% 12, "m")) |>
+  select(-avg_age_months)
 
 late_born_table
 write_csv(late_born_table, here("output/tables/table1b_late_born.csv"))
@@ -150,7 +149,7 @@ plot1 <- ggplot(table1_data, aes(x = months_kindergarten)) +
 
 plot1
 
-# ---- 2a. Summary table 1: visualization 22 -----------------------------------
+# ---- 2a. Summary table 1: visualization 2 ------------------------------------
 # Time in kindergarten by birth month
 
 plot2 <- ggplot(table1_data,
@@ -170,6 +169,3 @@ plot2 <- ggplot(table1_data,
 
 plot2
 
-
-
-# ---- 3. Summary table 2: Transition goals ------------------------------------
