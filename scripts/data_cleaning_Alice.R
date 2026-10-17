@@ -287,6 +287,70 @@ final_dataset <- final_dataset |>
             by = join_by(pupil_name),
             relationship = "one-to-one")
 
+# Analysis variables -----------------------------------------------------------
+
+## Group 3 start and time in kindergarten ----
+
+# school year in which each pupil started group 3 (first group 3 Cito test)
+group3_year <- cito_clean |>
+  filter(grade == 3) |>
+  mutate(year = as.numeric(str_extract(period, "[0-9]{4}"))) |>
+  group_by(pupil_name) |>
+  summarise(group3_year = min(year))
+
+final_dataset <- final_dataset |>
+  left_join(group3_year, by = join_by(pupil_name), relationship = "one-to-one") |>
+  # no Cito yet (current group 3): derive from current year group (school year 2026/27)
+  mutate(group3_year = if_else(is.na(group3_year),
+                               2026 - (current_year_group - 3),
+                               group3_year)) |>
+  mutate(
+    group3_start        = make_date(group3_year, 9, 1),
+    months_kindergarten = time_length(interval(start_date, group3_start), "month"),
+    age_start_group3    = time_length(interval(date_of_birth, group3_start), "year"),
+    birth_quarter       = quarter(date_of_birth),
+    late_born           = month(date_of_birth) >= 10   # born Oct-Dec
+  )
+
+## Transition goals achieved (Table 2) and skill domains ----
+
+final_dataset <- final_dataset |>
+  mutate(
+    goals_observed     = rowSums(!is.na(across(starts_with("goal_")))),
+    goals_achieved     = rowSums(across(starts_with("goal_")) >= 3, na.rm = TRUE),
+    goals_pct          = 100 * goals_achieved / goals_observed,
+    domain_maths       = rowMeans(across(starts_with(c("goal_TG", "goal_MK"))), na.rm = TRUE),
+    domain_language    = rowMeans(across(starts_with(c("goal_AO", "goal_BV", "goal_IT", "goal_VO"))), na.rm = TRUE),
+    domain_fine_motor  = rowMeans(across(starts_with("goal_KM")), na.rm = TRUE),
+    domain_social_emot = rowMeans(across(starts_with(c("goal_TZ", "goal_BT", "goal_SA"))), na.rm = TRUE)
+  )
+
+## Kindergarten class and starting level (from all observations) ----
+
+obs_all <- obs_raw |>
+  mutate(score = suppressWarnings(as.numeric(Score)),
+         date  = as_date(Datum)) |>
+  filter(score %in% 0:4) |>
+  select(pupil_name = Leerling, class_group = Groep, score, date)
+
+# class the pupil was observed in most often
+kindergarten_class <- obs_all |>
+  count(pupil_name, class_group) |>
+  group_by(pupil_name) |>
+  slice_max(n, n = 1, with_ties = FALSE) |>
+  select(pupil_name, kindergarten_class = class_group)
+
+# average observation score in the first 90 days after starting school
+starting_level <- obs_all |>
+  left_join(select(final_dataset, pupil_name, start_date), by = join_by(pupil_name)) |>
+  filter(date <= start_date + days(90)) |>
+  group_by(pupil_name) |>
+  summarise(starting_level   = mean(score),
+            starting_level_n = n())
+
+final_dataset <- final_dataset |>
+  left_join(kindergarten_class, by = join_by(pupil_name), relationship = "one-to-one") |>
+  left_join(starting_level,     by = join_by(pupil_name), relationship = "one-to-one")
 
 # Codebook --------------------------------------------------------------------
 
@@ -327,6 +391,19 @@ codebook <- tibble(variable = names(final_dataset)) |>
       "Mean answer on the pupil questionnaire (questions 1-7, scale 1-3) over all group 3 questionnaires",
     !is.na(goal) ~
       str_glue("Last observed score (0-4) in groups 1-2 on {goal_type} transition goal {goal_number}: {goal}"),
+    variable == "group3_year" ~ "School year in which the pupil started group 3 (first group 3 Cito test; otherwise from current year group)",
+    variable == "group3_start" ~ "Start of group 3, set to 1 September of group3_year",
+    variable == "months_kindergarten" ~ "Months from school start date to start of group 3",
+    variable == "age_start_group3" ~ "Age in years at the start of group 3",
+    variable == "birth_quarter" ~ "Birth quarter (1 = Jan-Mar ... 4 = Oct-Dec)",
+    variable == "late_born" ~ "TRUE if born October-December",
+    variable == "goals_observed" ~ "Number of the 34 transition goals observed",
+    variable == "goals_achieved" ~ "Number of transition goals with a last score of 3 or higher",
+    variable == "goals_pct" ~ "Percentage of observed transition goals achieved",
+    str_starts(variable, "domain_") ~ "Average last score (0-4) on the transition goals in this skill domain",
+    variable == "kindergarten_class" ~ "Kindergarten class the pupil was observed in most often",
+    variable == "starting_level" ~ "Average observation score (0-4) in the first 90 days after starting school",
+    variable == "starting_level_n" ~ "Number of observations the starting level is based on",
     .default = NA
   )) |>
   mutate(description = as.character(description)) |>
