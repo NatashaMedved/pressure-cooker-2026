@@ -620,23 +620,64 @@ ggsave(file.path(out_table1, "plot1_months_histogram.jpg"), plot1, width = 10, h
 
 # Time in kindergarten by birth month
 
-plot2 <- ggplot(table1_data,
-                aes(x = birth_month, y = months_kindergarten, colour = late_born)) +
-  geom_hline(yintercept = avg_months, linetype = "dashed") +
-  geom_jitter(width = 0.15, height = 0, size = 3) +
+# Each pupil is compared with peers born in the same month (short dark line =
+# typical months for that birth month).
+# Colours (same in every Q1 graph): grey = context, orange = stayed longer,
+# blue = moved up early. Groups are labelled directly in the plot, no legend.
+
+ink    <- "#1F1F1F"
+muted  <- "#4F4F4F"
+grey   <- "#A6A6A6"
+orange <- "#F6A70A"   # report template accent
+blue   <- "#0072B2"
+red    <- "#C0392B"   # late-born band (light), so orange only means "stayed longer"
+
+# typical months per birth month (one short line per month)
+typical_by_month <- table1_data |>
+  distinct(birth_month, typical_months)
+
+plot2 <- ggplot(table1_data, aes(x = birth_month, y = months_kindergarten)) +
+  # late-born months (Oct-Dec) as a light red band
+  annotate("rect", xmin = 9.5, xmax = 12.5, ymin = -Inf, ymax = Inf,
+           fill = red, alpha = 0.08) +
+  annotate("text", x = 11, y = 43, label = "Late-born\n(Oct-Dec)",
+           colour = red, fontface = "bold", size = 4.4, lineheight = 0.9) +
+  # typical time per birth month
+  geom_segment(data = typical_by_month,
+               aes(x = birth_month - 0.35, xend = birth_month + 0.35,
+                   y = typical_months, yend = typical_months),
+               linewidth = 1, colour = ink) +
+  geom_jitter(aes(colour = deviation), width = 0.15, height = 0, size = 3.2) +
+  # direct labels instead of a legend
+  annotate("text", x = 5.3, y = 40.6, label = "Stayed longer (about +1 year)",
+           colour = orange, fontface = "bold", hjust = 0, size = 4.6) +
+  annotate("text", x = 2.45, y = 18.6, label = "Moved up early (about -1 year)",
+           colour = blue, fontface = "bold", hjust = 0, size = 4.6) +
+  annotate("text", x = 6.7, y = 31.2, label = "Typical time for pupils\nborn in that month",
+           colour = muted, hjust = 0, size = 4.2, lineheight = 0.9) +
+  annotate("curve", x = 6.65, y = 30.6, xend = 6.1, yend = 27.1,
+           curvature = 0.3, colour = muted, linewidth = 0.5,
+           arrow = arrow(length = unit(0.08, "inches"), type = "closed")) +
   scale_x_continuous(breaks = 1:12, labels = month.abb) +
-  scale_colour_manual(values = c("FALSE" = "grey60", "TRUE" = "#DF892E"),
-                      labels = c("Other pupils", "Late-born (Oct–Dec)"),
-                      name   = NULL) +
-  labs(title = "Time in kindergarten",
-       subtitle = "Each dot is one pupil. Dashed line = average.",
+  scale_y_continuous(limits = c(15, 44.5), breaks = seq(15, 40, 5)) +
+  scale_colour_manual(values = c("Standard track" = grey,
+                                 "Stayed longer"  = orange,
+                                 "Moved up early" = blue),
+                      guide = "none") +
+  labs(subtitle = "Each dot is one pupil",
        x = "Birth month",
        y = "Months in kindergarten") +
-  theme_minimal() +
-  theme(legend.position = "top")
+  theme_minimal(base_size = 15, base_family = "Arial") +
+  theme(panel.grid.minor = element_blank(),
+        panel.grid.major.x = element_blank(),
+        panel.grid.major.y = element_line(colour = "#ECECEC", linewidth = 0.4),
+        axis.text = element_text(colour = muted),
+        axis.title = element_text(colour = ink),
+        plot.subtitle = element_text(colour = muted),
+        plot.background = element_rect(fill = "white", colour = NA))
 
 plot2
-ggsave(file.path(out_table1, "plot2_months_by_birth_month.jpg"), plot2, width = 10, height = 6, dpi = 300)
+ggsave(file.path(out_table1, "plot2_months_by_birth_month.png"), plot2, width = 7.6, height = 4.6, dpi = 300)
 
 
 # =============================================================================
@@ -839,8 +880,22 @@ q1_data <- q1_data |>
   left_join(support_g3, by = join_by(pupil_id), relationship = "one-to-one")
 
 # one dataset per test
-# drop_na() keeps only pupils with all variables, so every model of one test
-# uses exactly the same pupils
+# Model A (track + cohort) uses every pupil with a score on that test.
+# Model B also needs starting level and class: drop_na() drops 2 of the 6
+# "stayed longer" pupils (no observations in their first 90 days), so model B
+# is only a check on 4 pupils (3 for TMT).
+
+q1_maths_data_a <- q1_data |>
+  select(score = mathematics_g3_end_score, track, cohort) |>
+  drop_na()
+
+q1_tmt_data_a <- q1_data |>
+  select(score = tmt_g3_end_score, track, cohort) |>
+  drop_na()
+
+q1_spelling_data_a <- q1_data |>
+  select(score = spelling_non_verbs_g3_end_score, track, cohort) |>
+  drop_na()
 
 q1_maths_data <- q1_data |>
   select(score = mathematics_g3_end_score, track, months_kindergarten,
@@ -882,22 +937,22 @@ track_summary
 
 ## 4.3 Models ----
 # Per test:
-#   model A: track + cohort
-#   model B: + starting level and kindergarten class (fairer comparison)
+#   model A: track + cohort (all pupils with a score = main result)
+#   model B: + starting level and kindergarten class (check, fewer pupils)
 #   months:  model B with months (number) instead of track (extra check)
 
 # mathematics
-maths_a      <- lm(score ~ track + cohort, data = q1_maths_data)
+maths_a      <- lm(score ~ track + cohort, data = q1_maths_data_a)
 maths_b      <- lm(score ~ track + cohort + starting_level + kindergarten_class, data = q1_maths_data)
 maths_months <- lm(score ~ months_kindergarten + cohort + starting_level + kindergarten_class, data = q1_maths_data)
 
 # TMT
-tmt_a      <- lm(score ~ track + cohort, data = q1_tmt_data)
+tmt_a      <- lm(score ~ track + cohort, data = q1_tmt_data_a)
 tmt_b      <- lm(score ~ track + cohort + starting_level + kindergarten_class, data = q1_tmt_data)
 tmt_months <- lm(score ~ months_kindergarten + cohort + starting_level + kindergarten_class, data = q1_tmt_data)
 
 # spelling
-spelling_a      <- lm(score ~ track + cohort, data = q1_spelling_data)
+spelling_a      <- lm(score ~ track + cohort, data = q1_spelling_data_a)
 spelling_b      <- lm(score ~ track + cohort + starting_level + kindergarten_class, data = q1_spelling_data)
 spelling_months <- lm(score ~ months_kindergarten + cohort + starting_level + kindergarten_class, data = q1_spelling_data)
 
@@ -1012,9 +1067,34 @@ write_xlsx(
 
 ## 4.6 Plots ----
 
+# colours (same in every Q1 graph): grey = context, orange = stayed longer,
+# blue = moved up early; colourblind-friendly (ink, muted, grey from Part 2)
+q1_orange <- "#F6A70A"   # report template accent: stayed longer
+
+# Q1 theme: white background, light horizontal gridlines only, large text
+# (theme_analysis stays as it is for Question 2)
+theme_q1 <- theme_minimal(base_size = 15, base_family = "Arial") +
+  theme(
+    plot.title = element_text(face = "bold", size = 17, colour = ink, margin = margin(b = 8)),
+    plot.title.position = "plot",
+    plot.subtitle = ggtext::element_markdown(colour = muted, lineheight = 1.25,
+                                             margin = margin(b = 14)),
+    axis.text = element_text(colour = muted),
+    axis.title = element_text(colour = ink),
+    panel.grid.minor = element_blank(),
+    panel.grid.major.x = element_blank(),
+    panel.grid.major.y = element_line(colour = "#ECECEC", linewidth = 0.4),
+    strip.text = element_text(face = "bold", size = 15, colour = ink),
+    plot.margin = margin(15, 20, 15, 15),
+    plot.background = element_rect(fill = "white", colour = NA)
+  )
+
+# coloured words in a subtitle (instead of a legend)
+in_colour <- \(text, colour) str_c("<span style='color:", colour, "'>**", text, "**</span>")
+
 # long format: one row per pupil per test
 q1_plot_data <- q1_data |>
-  select(track, months_kindergarten, late_born,
+  select(track, months_kindergarten,
          Mathematics            = mathematics_g3_end_score,
          TMT                    = tmt_g3_end_score,
          `Spelling - Non-verbs` = spelling_non_verbs_g3_end_score) |>
@@ -1023,35 +1103,125 @@ q1_plot_data <- q1_data |>
   mutate(test = factor(test, levels = c("Mathematics", "TMT", "Spelling - Non-verbs")))
 
 # main plot: Cito per track
-plot_track <- ggplot(q1_plot_data, aes(x = track, y = score)) +
-  geom_jitter(width = 0.15, height = 0, size = 2.5, color = main_color, alpha = 0.7) +
-  stat_summary(fun = mean, geom = "crossbar", width = 0.5, color = "grey30") +
+# average and 95% confidence interval of the average per test and track
+# (not adjusted for cohort; the adjusted comparison is plot_estimate below)
+track_means <- q1_plot_data |>
+  summarise(
+    n = n(),
+    mean = mean(score),
+    half_ci = qt(0.975, n - 1) * sd(score) / sqrt(n),
+    .by = c(test, track)
+  ) |>
+  mutate(x = as.numeric(track), low = mean - half_ci, high = mean + half_ci)
+
+plot_track <- ggplot(q1_plot_data, aes(x = track, y = score, colour = track)) +
+  geom_jitter(width = 0.12, height = 0, size = 2.8) +
+  # average with whiskers (95% confidence interval), right of the dots
+  geom_errorbar(data = track_means,
+                aes(x = x + 0.32, ymin = low, ymax = high),
+                inherit.aes = FALSE, width = 0.12, colour = ink, linewidth = 0.8) +
+  geom_point(data = track_means, aes(x = x + 0.32, y = mean),
+             inherit.aes = FALSE, colour = ink, size = 3.2) +
+  # number of pupils per test and track, under each group
+  geom_text(data = track_means, aes(x = x, y = -Inf, label = str_c("n = ", n)),
+            inherit.aes = FALSE, vjust = -0.6, size = 4, colour = muted) +
   facet_wrap(~ test, scales = "free_y") +
-  labs(title = "Cito at the end of group 3: stayed longer vs standard track",
-       subtitle = "Each dot is one pupil. Bar = group average.",
+  scale_x_discrete(labels = c("Standard track" = "Standard\ntrack",
+                              "Stayed longer" = "Stayed\nlonger")) +
+  scale_y_continuous(expand = expansion(mult = c(0.12, 0.05))) +
+  scale_colour_manual(values = c("Standard track" = grey, "Stayed longer" = q1_orange),
+                      guide = "none") +
+  labs(subtitle = str_c("Each dot is one pupil. Black point = average,<br>",
+                        "whiskers = where the true average likely lies (95% confidence interval)."),
        x = NULL, y = "Cito score (end of group 3)") +
-  theme_analysis
+  theme_q1
 
 plot_track
 ggsave(file.path(out_q1, "analysis_q1_cito_by_track.jpg"),
-       plot_track, width = 14, height = 6, dpi = 300)
+       plot_track, width = 8.6, height = 4.6, dpi = 300)
+
+# main plot 2: difference with 95% CI, model A and model B
+# The tests have different scales, so the difference is shown in standard
+# deviations of each test; the label gives the difference in Cito points.
+estimate_models <- tribble(
+  ~test,                  ~model, ~fit,
+  "Mathematics",          "A",    maths_a,
+  "Mathematics",          "B",    maths_b,
+  "TMT",                  "A",    tmt_a,
+  "TMT",                  "B",    tmt_b,
+  "Spelling - Non-verbs", "A",    spelling_a,
+  "Spelling - Non-verbs", "B",    spelling_b
+)
+
+estimate_data <- estimate_models |>
+  mutate(result = map(fit, \(model) {
+    sd_score <- sd(model$model$score)
+    tidy(model, conf.int = TRUE) |>
+      filter(term == "trackStayed longer") |>
+      mutate(n_stayed = sum(model$model$track == "Stayed longer"),
+             estimate_sd = estimate / sd_score,
+             low_sd = conf.low / sd_score,
+             high_sd = conf.high / sd_score)
+  })) |>
+  select(-fit) |>
+  unnest(result) |>
+  mutate(
+    test = factor(test, levels = rev(c("Mathematics", "TMT", "Spelling - Non-verbs"))),
+    # model A slightly above, model B slightly below each test
+    y = as.numeric(test) + if_else(model == "A", 0.17, -0.17),
+    label = str_c(sprintf("%+.0f", estimate), " points (", n_stayed, " pupils)")
+  )
+
+model_colours <- c(A = q1_orange, B = "#8A8A8A")
+
+plot_estimate <- ggplot(estimate_data, aes(x = estimate_sd, y = y, colour = model)) +
+  # the only reference point: no difference
+  geom_vline(xintercept = 0, linetype = "dashed", colour = ink, linewidth = 0.6) +
+  geom_errorbar(aes(xmin = low_sd, xmax = high_sd), width = 0.12, linewidth = 1,
+                orientation = "y") +
+  geom_point(aes(shape = model), size = 3.6) +
+  # difference in Cito points, in the same colour as the line
+  geom_text(aes(x = 1.85, label = label), size = 4.3, hjust = 0, fontface = "bold") +
+  annotate("text", x = -0.1, y = 0.42, label = "← lower than standard track",
+           hjust = 1, size = 4.2, colour = muted) +
+  annotate("text", x = 0.1, y = 0.42, label = "higher →",
+           hjust = 0, size = 4.2, colour = muted) +
+  scale_x_continuous(breaks = seq(-1.5, 1.5, 0.5)) +
+  scale_y_continuous(breaks = 1:3, labels = levels(estimate_data$test)) +
+  scale_colour_manual(values = model_colours, guide = "none") +
+  scale_shape_manual(values = c(A = 16, B = 17), guide = "none") +
+  # zoom with coord_cartesian, so the labels right of the panel are kept
+  coord_cartesian(xlim = c(-1.8, 1.7), clip = "off") +
+  labs(subtitle = str_c(in_colour("All pupils who stayed longer", q1_orange), "<br>",
+                        in_colour("Only those with a known starting level", "#8A8A8A"),
+                        "<br>Line = 95% confidence interval"),
+       x = "Difference from the standard track (in SD)", y = NULL) +
+  theme_q1 +
+  theme(panel.grid.major.y = element_blank(),
+        # room on the right for the labels in Cito points
+        plot.margin = margin(15, 165, 15, 15),
+        axis.text.y = element_text(face = "bold", size = 15, colour = ink))
+
+plot_estimate
+ggsave(file.path(out_q1, "q1_adjusted_difference.png"),
+       plot_estimate, width = 7.4, height = 4.8, dpi = 300)
 
 # extra plot (appendix): months in kindergarten (number) vs Cito
 plot_months <- ggplot(q1_plot_data, aes(x = months_kindergarten, y = score)) +
-  geom_point(aes(color = as.logical(late_born)), size = 2.5) +
-  geom_smooth(method = "lm", se = TRUE, color = "grey30", linewidth = 0.8) +
+  geom_point(aes(colour = track), size = 2.6) +
+  geom_smooth(method = "lm", formula = y ~ x, se = TRUE, colour = ink,
+              fill = "#DDDDDD", linewidth = 0.8) +
   facet_wrap(~ test, scales = "free_y") +
-  scale_color_manual(values = c("FALSE" = "grey65", "TRUE" = main_color),
-                     labels = c("Other pupils", "Late-born (Oct-Dec)"), name = NULL) +
-  labs(title = "Time in kindergarten and Cito at the end of group 3",
-       subtitle = "Each dot is one pupil. Line = overall trend with 95% confidence band.",
+  scale_colour_manual(values = c("Standard track" = grey, "Stayed longer" = q1_orange),
+                      guide = "none") +
+  labs(subtitle = str_c("Each dot is one pupil (", in_colour("stayed longer", q1_orange),
+                        " or standard track). Line = overall trend with 95% confidence band."),
        x = "Months in kindergarten", y = "Cito score (end of group 3)") +
-  theme_analysis +
-  theme(legend.position = "top")
+  theme_q1
 
 plot_months
 ggsave(file.path(out_q1, "analysis_q1_months_vs_cito.jpg"),
-       plot_months, width = 14, height = 6, dpi = 300)
+       plot_months, width = 11, height = 4.8, dpi = 300)
 
 
 # =============================================================================
