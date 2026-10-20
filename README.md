@@ -59,7 +59,7 @@ docs/           intake notes, meeting notes
 
 1. Clone the repo: `git clone <repo-url>`
 2. Open `pressure-cooker.Rproj` in RStudio.
-3. Get the data from the agreed shared location and put it in `data/raw/`.
+3. Get the data from the agreed shared location and put it in `data/raw/`. Add also the file Selected learning goals.xlsx to the `data/raw/`.
 4. Run the scripts in `scripts/` in numbered order.
 
 ## Data privacy
