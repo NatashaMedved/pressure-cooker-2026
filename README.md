@@ -72,7 +72,7 @@ install.packages(c("tidyverse", "readxl", "here", "writexl",
 
 1. Clone the repo: `git clone https://github.com/NatashaMedved/pressure-cooker-2026.git`
 2. Open `pressure-cooker.Rproj` in RStudio. The file paths only work from the project (they use `here()`).
-3. Put the date files in `data/raw/`, with exactly these names:
+3. Put the data files in `data/raw/`, with exactly these names:
 
    | File | Used for |
    |---|---|
@@ -83,8 +83,10 @@ install.packages(c("tidyverse", "readxl", "here", "writexl",
    | `Selected learning goals.xlsx` | the 34 transition goals |
    | `Observaties_groep_1_2.xlsx` | teacher observations in groups 1–2 |
 
+   **Note:** `Selected learning goals.xlsx` was shared **separately** from the other data files. Make sure you add it too; the script cannot run without it.
+   
    The other files from the school (`CLASS.xlsx`, `Extracurricular.xlsx`, `teacher survey.docx`, `Translated_pupil questionnaire.docx`, `UvA_testresults_math.xlsx`) are not used.
-4. Restart R (Session > Restart R) and run the whole script `scripts/pressure_cooker_analysis.R`.
+4. Restart R (Session > Restart R), open `scripts/pressure_cooker_analysis.R` and click **Source** (or **Source with Echo** to also see the tables and plots).
 
 ### What the script does
 
