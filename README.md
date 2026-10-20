@@ -35,7 +35,7 @@ Which aspects of early years education should the school prioritise to maximise 
 | 14 Oct 2026 | Data is clear (cleaned, understood, codebook checked) | Alice |
 | 15 Oct 2026 | Modelling approach is clear | |
 | **15 Oct 2026** | Proposal submitted (see `/proposal.md`) | |
-|  | Core analysis finished | |
+| 19 Oct 2026 | Core analysis finished | |
 | **20 Oct 2026** | Submit slides for pitch | |
 | **20 Oct 2026** | Submit all deliverables on Canvas | |
 
@@ -43,15 +43,14 @@ Which aspects of early years education should the school prioritise to maximise 
 
 ```
 pressure-cooker.Rproj
-proposal/        proposal slides
-report/          report (PowerPoint) and exported PDF
-presentation/    short deck for the pitch
+proposal/        template, proposal slides (NOT on GitHub)
+report/          report (PowerPoint) and exported PDF (NOT on GitHub)
+presentation/    short deck for the pitch (NOT on GitHub)
 scripts/         pressure_cooker_analysis.R (the full analysis, one script)
-docs/            intake notes, meeting notes
 data/
   raw/           data from the school (NOT on GitHub, see Data privacy)
   processed/     cleaned data written by the script (NOT on GitHub)
-output/          tables and plots written by the script (NOT on GitHub)
+output/          tables and plots written by the script 
   table_1/       time in kindergarten by birth period
   table_2/       transition goals achieved at the start of group 3
   question_1/    staying longer in kindergarten vs Cito and extra support
@@ -73,7 +72,7 @@ install.packages(c("tidyverse", "readxl", "here", "writexl",
 
 1. Clone the repo: `git clone https://github.com/NatashaMedved/pressure-cooker-2026.git`
 2. Open `pressure-cooker.Rproj` in RStudio. The file paths only work from the project (they use `here()`).
-3. Get the data from the agreed shared location and put these files in `data/raw/`, with exactly these names:
+3. Put the date files in `data/raw/`, with exactly these names:
 
    | File | Used for |
    |---|---|
