@@ -1,0 +1,7 @@
+outcome,model,estimate,conf.low,conf.high,p.value
+Maths,A: + cohort,-8.1,-33,16.9,0.522
+Maths,"B: + starting level, class",-23.9,-52.6,4.8,0.101
+Technical reading (TMT),A: + cohort,10.5,-1.7,22.8,0.091
+Technical reading (TMT),"B: + starting level, class",-5,-20,10.1,0.51
+Spelling,A: + cohort,9.2,-22.5,41,0.563
+Spelling,"B: + starting level, class",-20.9,-58,16.2,0.265
