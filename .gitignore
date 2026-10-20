@@ -33,3 +33,4 @@ Thumbs.db
 *.xls
 *.csv
 !output/tables/*.csv
+Rplots.pdf
